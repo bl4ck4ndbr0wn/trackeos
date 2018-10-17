@@ -10,7 +10,8 @@ public:
                                 _products(self, self),
                                 _procedures(self, self){}
 
-                                    [[eosio::action]] void addhandler(account_name username, const std::string &first_name, const std::string &last_name)
+  [[eosio::action]]
+  void addhandler(account_name username, const std::string &first_name, const std::string &last_name)
   {
     require_auth(username);
 
@@ -23,7 +24,8 @@ public:
     });
   }
 
-  [[eosio::action]] void updateh(account_name username, const std::string &first_name) {
+  [[eosio::action]]
+  void updateh(account_name username, const std::string &first_name) {
     require_auth(username);
 
     auto itr = _handlers.find(username);
@@ -33,7 +35,8 @@ public:
     });
   }
 
-      [[eosio::action]] void addprod(account_name initiator, std::string product, std::string producer, uint64_t id)
+  [[eosio::action]]
+  void addprod(account_name initiator, std::string product, std::string producer, uint64_t id)
   {
     require_auth(initiator);
     _products.emplace(initiator, [&](auto &rcrd) {
@@ -43,12 +46,14 @@ public:
     });
   }
 
-  [[eosio::action]] void process(account_name processor, uint64_t productKey, uint64_t id) {
+  [[eosio::action]]
+  void process(account_name processor, uint64_t productKey, uint64_t id, std::string procedure_name) {
     require_auth(processor);
     _procedures.emplace(processor, [&](auto &rcrd) {
       rcrd.processId = id;
       rcrd.productKey = productKey;
       rcrd.processor = processor;
+      rcrd.procedure_name = procedure_name;
     });
   };
 
@@ -79,6 +84,7 @@ private:
     uint64_t processId;
     uint64_t productKey;
     std::string processor;
+    std::string procedure_name;
 
     uint64_t primary_key() const { return processId; }
   };
