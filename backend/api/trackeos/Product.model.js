@@ -13,12 +13,8 @@ try {
     processes: [
       {
         _id: String,
-        handler: {
-          type: Schema.Types.ObjectId,
-          ref: "Handler"
-        },
-        process_name: String,
-        processing_date: Date.now()
+        processor: String,
+        process_name: String
       }
     ],
     productConfirmed: {
@@ -27,6 +23,7 @@ try {
     },
     creation_date: Date
   });
+
   Product = mongoose.model("Product", ProductSchema);
 } catch (e) {
   Product = mongoose.model("Product");

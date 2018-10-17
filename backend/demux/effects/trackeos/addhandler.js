@@ -1,4 +1,6 @@
 function addhandler(payload, context) {
+  console.info("...............add handler effect...............");
+  console.log(payload.data);
   const handler = {
     username: payload.data.username,
     first_name: payload.data.first_name,
